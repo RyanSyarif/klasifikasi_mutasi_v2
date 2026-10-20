@@ -1,0 +1,33 @@
+version: model-klasifikasi-v2-14-features
+
+# Mengganti enabled/name mengharuskan retraining. Validator sengaja menolak
+# konfigurasi yang tidak sama dengan feature order di artefak model.
+features:
+  - {name: leks_sepakat_llm, enabled: true, group: rule, description: "Kamus kategori sepakat dengan kategori LLM"}
+  - {name: tfidf_ket__to, enabled: true, group: remark, description: "Bobot kata 'to' pada remark"}
+  - {name: llm_kat_selaras_dokumen, enabled: true, group: document, description: "Kategori LLM selaras dengan komposisi rekening"}
+  - {name: rel_cakupan_ket, enabled: true, group: relation, description: "Cakupan kata remark di alasan LLM"}
+  - {name: ket_jumlah_kunci_kena, enabled: true, group: remark, description: "Jumlah kelompok keyword yang cocok"}
+  - {name: rel_jaccard, enabled: true, group: relation, description: "Kemiripan token remark dan alasan"}
+  - {name: tfidf_als__own, enabled: true, group: reason, description: "Bobot kata 'own' pada alasan"}
+  - {name: als_skor_kekhususan, enabled: true, group: reason, description: "Skor kekhususan alasan LLM"}
+  - {name: kop_panjang_medan_rata, enabled: true, group: structure, description: "Rata-rata panjang field transaksi"}
+  - {name: num_log_nominal, enabled: true, group: amount, description: "Log natural nominal transaksi"}
+  - {name: als_tumpang_ket, enabled: true, group: relation, description: "Proporsi kata alasan yang muncul pada remark"}
+  - {name: num_nominal, enabled: true, group: amount, description: "Nominal debet ditambah kredit"}
+  - {name: tfidf_als__bank, enabled: true, group: reason, description: "Bobot kata 'bank' pada alasan"}
+  - {name: tfidf_ket__biaya, enabled: true, group: remark, description: "Bobot kata 'biaya' pada remark"}
+
+artifacts:
+  probability_model: model_logistic_regression.joblib
+  confidence_model: model_logistic_regression.joblib
+  text_transformer: teks_turunan.joblib
+
+output:
+  probability_decimals: 4
+  # Probability dan confidence memakai Logistic Regression yang sama. Ambang
+  # merupakan batas bawah bin 3 dari prefix OOF train tanpa false-positive.
+  confidence_score_source: logistic_regression
+  confidence_threshold_source: lower_bound_bin_3
+  confidence_threshold: 0.9482552543312334
+  confidence_operator: greater_or_equal

@@ -1,0 +1,20 @@
+version: model-klasifikasi-v2
+environment_file: .env
+active_prompt:
+  FI: prompts/fi.yaml
+  NFI: prompts/nfi.yaml
+classification:
+  FI:
+    transaction_sides: [CREDIT]
+    unmatched_category: null
+  NFI:
+    transaction_sides: [CREDIT, DEBIT]
+    use_pair_candidates: true
+    use_kk_names: true
+    use_akta_names: true
+confidence:
+  probability_model: logistic_regression
+  binary_confidence_model: logistic_regression
+  accepted_bins: [1, 2, 3]
+  feature_config: config/feature_engineering.yaml
+  threshold: 0.9482552543312334

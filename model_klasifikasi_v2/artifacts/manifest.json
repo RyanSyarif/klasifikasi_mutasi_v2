@@ -1,0 +1,56 @@
+{
+  "version": "model-klasifikasi-v2",
+  "source_llm": {
+    "provider": "bedrock",
+    "model_id": "openai.gpt-oss-120b-1:0",
+    "prompt": "v11 split FI/NFI"
+  },
+  "probability_model": "logistic_regression",
+  "feature_count": 14,
+  "metrics": {
+    "logistic_regression_test": {
+      "n": 311,
+      "roc_auc": 0.801148,
+      "gini": 0.602295,
+      "pr_auc": 0.946985,
+      "precision": 0.955414,
+      "recall": 0.6,
+      "f1": 0.737101,
+      "accuracy": 0.655949
+    },
+    "note": "benchmark pengembangan; test berasal dari fold yang pernah dievaluasi, bukan blind holdout baru"
+  },
+  "artifacts_sha256": {
+    "teks_turunan.joblib": "b8efc5bec9acf48b683c2ef0bc6cd510e7e025dae518072dad6400f1971a7185",
+    "model_logistic_regression.joblib": "fdc91310fd1162529ed2cc2767013a274a4ec41ccc3f599e08989c35da351ab3"
+  },
+  "source_paths": {
+    "models": "paket_penilai_llm/experiments/bedrock_gpt_oss_v3_train_test",
+    "text_transformer": "paket_penilai_llm/model_artifacts/v20261013_144403__bedrock_gpt_oss_v11/model/teks_turunan.joblib"
+  },
+  "confidence": {
+    "score_model": "logistic_regression",
+    "same_score_as_probability": true,
+    "accepted_bins": [
+      1,
+      2,
+      3
+    ],
+    "threshold": 0.9482552543312334,
+    "operator": "greater_or_equal",
+    "calibration": "prefix prediksi Logistic Regression group-OOF train tanpa false-positive",
+    "audit_oof_train": {
+      "n": 187,
+      "correct": 187,
+      "incorrect": 0,
+      "precision": 1.0
+    },
+    "audit_test": {
+      "n": 6,
+      "correct": 6,
+      "incorrect": 0,
+      "precision": 1.0
+    },
+    "warning": "Presisi 100% bersifat empiris pada sampel train/test, bukan jaminan data produksi baru."
+  }
+}
